@@ -22,8 +22,6 @@ categoriesRoutes.post("/", (request, response) => {
 });
 
 categoriesRoutes.get("/", (request, response) => {
-    const { name, description } = request.body;
-
     const allCategories = categoriesRepository.list();
 
     return response.status(201).json(allCategories);
