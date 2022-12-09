@@ -30,6 +30,7 @@ class ImportCategoryUseCase {
                     categories.push({ name, description });
                 })
                 .on("end", () => {
+                    fs.unlinkSync(file.path);
                     resolve(categories);
                 })
                 .on("error", (err) => {
