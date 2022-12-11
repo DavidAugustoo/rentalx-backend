@@ -2,11 +2,12 @@ import { DataSource } from "typeorm";
 
 export const dataSource = new DataSource({
     type: "postgres",
-    host: "localhost", // Nome dado ao service do banco de dados
+    host: "database", // Nome dado ao service do banco de dados
     port: 5432,
     username: "docker",
     password: "ignite",
     database: "rentx",
+    entities: ["./src/modules/**/entities/*.ts"],
     migrations: ["src/database/migrations/*.ts"],
 });
 

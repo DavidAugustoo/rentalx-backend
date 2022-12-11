@@ -8,8 +8,8 @@ class ListCategoriesUseCase {
         this.categoriesRepository = categoriesRepository;
     }
 
-    execute(): Category[] {
-        const category = this.categoriesRepository.list();
+    async execute(): Promise<Category[]> {
+        const category = await this.categoriesRepository.list();
 
         return category;
     }
