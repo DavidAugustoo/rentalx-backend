@@ -1,5 +1,5 @@
-import { AppError } from "@errors/appError";
-import { UsersRepository } from "@modules/accounts/repositories/implementations/UsersRepository";
+import { AppError } from "@shared/infra/http/errors/appError";
+import { UsersRepository } from "@modules/accounts/infra/typeorm/repositories/UsersRepository";
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 
