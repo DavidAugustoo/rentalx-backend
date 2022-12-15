@@ -1,8 +1,7 @@
+import { AppError } from "@errors/appError";
+import { UsersRepository } from "@modules/accounts/repositories/implementations/UsersRepository";
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
-
-import { AppError } from "../errors/appError";
-import { UsersRepository } from "../modules/accounts/repositories/implementations/UsersRepository";
 
 interface IPayload {
     sub: string;
@@ -19,7 +18,7 @@ export async function ensureAuthenticated(
         throw new AppError("Token missing", 401);
     }
 
-    const [_, token] = authHeader.split(" ");
+    const [, token] = authHeader.split(" ");
 
     try {
         const { sub: user_id } = verify(
