@@ -10,7 +10,7 @@ async function create() {
     await dataSource.initialize().then(async () => {
         await dataSource.query(
             `INSERT INTO USERS(id, name, email, password, "isAdmin", created_at, driver_license)
-            values('${id}', 'admin', 'admin@admin.com', '${password}', 'true', 'now()', 'XXXYYY')`
+            values('${id}', 'admin', 'admin@rentx.com', '${password}', 'true', 'now()', 'XXXYYY')`
         );
     });
 
