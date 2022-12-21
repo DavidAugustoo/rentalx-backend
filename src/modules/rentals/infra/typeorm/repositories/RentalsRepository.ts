@@ -1,10 +1,10 @@
-import { Repository } from "typeorm";
-
 import { ICreateRentalDTO } from "@modules/rentals/dtos/ICreateRentalDTO";
 import { IRentalsRepository } from "@modules/rentals/repositories/IRentalsRepository";
+import { Repository } from "typeorm";
+
+import { dataSource } from "@shared/infra/typeorm";
 
 import { Rental } from "../entities/Rental";
-import { dataSource } from "@shared/infra/typeorm";
 
 class RentalsRepository implements IRentalsRepository {
     private repository: Repository<Rental>;
@@ -50,7 +50,7 @@ class RentalsRepository implements IRentalsRepository {
     }
 
     async findById(id: string): Promise<Rental> {
-        const rental = await this.repository.findOne(id);
+        const rental = await this.repository.findOneBy({ id });
         return rental;
     }
 
