@@ -6,6 +6,7 @@
     "dev": "ts-node-dev --inspect -r tsconfig-paths/register --poll --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "node -r tsconfig-paths/register --require ts-node/register ./node_modules/typeorm/cli.js",
     "test": "NODE_ENV=test jest",
+    "lint": "eslint --fix --ext .ts,.jsx .",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seed/admin.ts"
   },
   "license": "MIT",
