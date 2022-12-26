@@ -1,10 +1,13 @@
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 import { IUsersTokensRepository } from "@modules/accounts/repositories/IUsersTokenRepository";
+import dotenv from "dotenv";
+import { resolve } from "path";
 import { inject, injectable } from "tsyringe";
 import { v4 as uuidV4 } from "uuid";
 
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
-import { EtherealMailProvider } from "@shared/container/providers/MailProvider/implementations/EtherealMailProvider";
+
+dotenv.config();
 
 @injectable()
 class SendForgotPasswordEmailUseCase {
@@ -22,6 +25,15 @@ class SendForgotPasswordEmailUseCase {
     async execute(email: string): Promise<void> {
         const user = await this.usersRepository.findByEmail(email);
 
+        const templatePath = resolve(
+            __dirname,
+            "..",
+            "..",
+            "views",
+            "emails",
+            "forgotPassword.hbs"
+        );
+
         if (!user) {
             throw new Error("User does not exists");
         }
@@ -36,10 +48,16 @@ class SendForgotPasswordEmailUseCase {
             expires_date,
         });
 
+        const variables = {
+            name: user.name,
+            link: `${process.env.FORGOT_MAIL_URL}${token}`,
+        };
+
         await this.mailProvider.sendMail(
             email,
             "Recuperação de senha",
-            `O Link para o reset é ${token}`
+            variables,
+            templatePath
         );
     }
 }

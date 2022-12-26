@@ -51,14 +51,14 @@ class AuthenticateUserUseCase {
         } = auth;
 
         if (!user) {
-            throw new AppError("Email or password is incorrect.");
+            throw new AppError("Email or password incorrect!");
         }
 
         // Verificando se a senha está correta
         const passwordMath = await compare(password, user.password);
 
         if (!passwordMath) {
-            throw new AppError("Email or password is incorrect.");
+            throw new AppError("Email or password incorrect!");
         }
 
         // Gerando Token
@@ -75,6 +75,8 @@ class AuthenticateUserUseCase {
         const refresh_token_expires_date = this.dateProvider.addDays(
             expires_refresh_token_days
         );
+
+        console.log("AQUI DOIDOO", refresh_token_expires_date);
 
         await this.usersTokensRepository.create({
             user_id: user.id,
