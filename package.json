@@ -7,7 +7,9 @@
     "typeorm": "node -r tsconfig-paths/register --require ts-node/register ./node_modules/typeorm/cli.js",
     "test": "NODE_ENV=test jest",
     "lint": "eslint --fix --ext .ts,.jsx .",
-    "seed:admin": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seed/admin.ts"
+    "seed:admin": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seed/admin.ts",
+    "migration:run":"NODE_ENV=typeorm yarn typeorm migration:run -d src/shared/infra/typeorm",
+    "migration:run:test":"NODE_ENV=typeorm_test yarn typeorm migration:run -d src/shared/infra/typeorm"
   },
   "license": "MIT",
   "dependencies": {
