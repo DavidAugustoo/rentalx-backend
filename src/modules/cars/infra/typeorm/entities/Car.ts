@@ -6,10 +6,12 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
+    OneToMany,
     PrimaryColumn,
 } from "typeorm";
 import { v4 as uuidV4 } from "uuid";
 
+import { CarImage } from "./CarImage";
 import { Category } from "./Category";
 import { Specification } from "./Specification";
 
@@ -56,6 +58,9 @@ class Car {
 
     @CreateDateColumn()
     created_at: Date;
+
+    @OneToMany(() => CarImage, (image) => image.car)
+    images: CarImage[];
 
     constructor() {
         if (!this.id) {

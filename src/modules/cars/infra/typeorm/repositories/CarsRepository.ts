@@ -56,6 +56,7 @@ class CarsRepository implements ICarsRepository {
     ): Promise<Car[]> {
         const carsQuery = this.repository
             .createQueryBuilder("c")
+            .leftJoinAndSelect("c.images", "image")
             .where("available = :available", { available: true });
 
         if (brand) {
