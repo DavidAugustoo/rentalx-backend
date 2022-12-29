@@ -1,5 +1,5 @@
 import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
-import { UsersRepositoryInMemory } from "@modules/accounts/in-memory/UsersRepositoryInMemory";
+import { UsersRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UsersRepositoryInMemory";
 import { UsersTokensRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UsersTokensRepositoryInMemory";
 
 import { DayjsDateProvider } from "@shared/container/providers/DateProvider/implementations/DayjsDateProvider";
