@@ -1,53 +1,75 @@
-import { CategoriesRepositoryInMemory } from "@modules/cars/repositories/in-memory/CategoriesRepositoryInMemory";
-import { CreateCategoryUseCase } from "@modules/cars/useCases/CreateCategory/CreateCategoryUseCase";
+import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
+import { UsersRepositoryInMemory } from "@modules/accounts/in-memory/UsersRepositoryInMemory";
+import { UsersTokensRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UsersTokensRepositoryInMemory";
 
+import { DayjsDateProvider } from "@shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 import { AppError } from "@shared/infra/http/errors/appError";
 
-let createCategoryUseCase: CreateCategoryUseCase;
-let categoriesRepositoryInMemory: CategoriesRepositoryInMemory;
+import { CreateUserUseCase } from "../CreateUser/CreateUserUseCase";
+import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
 
-describe("Create Category", () => {
+let authenticateUserUseCase: AuthenticateUserUseCase;
+let usersRepositoryInMemory: UsersRepositoryInMemory;
+let userTokensRepositoryInMemory: UsersTokensRepositoryInMemory;
+let dateProvider: DayjsDateProvider;
+
+let createUserUseCase: CreateUserUseCase;
+
+describe("Authenticate User", () => {
     beforeEach(() => {
-        categoriesRepositoryInMemory = new CategoriesRepositoryInMemory();
-        createCategoryUseCase = new CreateCategoryUseCase(
-            categoriesRepositoryInMemory
+        usersRepositoryInMemory = new UsersRepositoryInMemory();
+        userTokensRepositoryInMemory = new UsersTokensRepositoryInMemory();
+        dateProvider = new DayjsDateProvider();
+
+        authenticateUserUseCase = new AuthenticateUserUseCase(
+            usersRepositoryInMemory,
+            userTokensRepositoryInMemory,
+            dateProvider
         );
+        createUserUseCase = new CreateUserUseCase(usersRepositoryInMemory);
     });
 
-    it("should be able to create a new category", async () => {
-        const category = {
-            name: "Category Test",
-            description: "Category description Test",
+    it("should be able to authenticate an user", async () => {
+        const user: ICreateUserDTO = {
+            driver_license: "000123",
+            email: "user@test.com",
+            password: "1234",
+            name: "User Test",
         };
+        await createUserUseCase.execute(user);
 
-        await createCategoryUseCase.execute({
-            name: category.name,
-            description: category.description,
+        const result = await authenticateUserUseCase.execute({
+            email: user.email,
+            password: user.password,
         });
 
-        const categoryCreated = await categoriesRepositoryInMemory.findByName(
-            category.name
-        );
-
-        expect(categoryCreated).toHaveProperty("id");
+        expect(result).toHaveProperty("token");
     });
 
-    it("should not be able to create a new category with name exists", async () => {
-        const category = {
-            name: "Category Test",
-            description: "Category description Test",
+    it("should not be able to authenticate an nonexistent user", async () => {
+        await expect(
+            authenticateUserUseCase.execute({
+                email: "false@email.com",
+                password: "1234",
+            })
+        ).rejects.toEqual(new AppError("Email or password incorrect!"));
+    });
+
+    it("should not be able to authenticate with incorrect password", async () => {
+        const user: ICreateUserDTO = {
+            driver_license: "9999",
+            email: "user@user.com",
+            password: "1234",
+            name: "User Test Error",
         };
 
-        await createCategoryUseCase.execute({
-            name: category.name,
-            description: category.description,
-        });
+        await createUserUseCase.execute(user);
 
         await expect(
-            createCategoryUseCase.execute({
-                name: category.name,
-                description: category.description,
+            authenticateUserUseCase.execute({
+                email: user.email,
+                password: "incorrectPassword",
             })
-        ).rejects.toEqual(new AppError("Category already exists!"));
+        ).rejects.toEqual(new AppError("Email or password incorrect!"));
     });
 });
