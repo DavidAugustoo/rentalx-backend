@@ -6,6 +6,7 @@ import { inject, injectable } from "tsyringe";
 import { v4 as uuidV4 } from "uuid";
 
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
+import { AppError } from "@shared/infra/http/errors/appError";
 
 dotenv.config();
 
@@ -35,7 +36,7 @@ class SendForgotPasswordEmailUseCase {
         );
 
         if (!user) {
-            throw new Error("User does not exists");
+            throw new AppError("User does not exists");
         }
 
         const token = uuidV4();
