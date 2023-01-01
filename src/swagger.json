@@ -28,6 +28,10 @@
                                     "password": {
                                         "type": "string"
                                     }
+                                },
+                                "example": {
+                                    "email": "user@email.com.br",
+                                    "password": "pass123"
                                 }
                             }
                         }
@@ -190,6 +194,12 @@
                                     "driver_license": {
                                         "type": "string"
                                     }
+                                },
+                                "example": {
+                                    "name": "User Name",
+                                    "email": "user@email.com.br",
+                                    "password": "pass123",
+                                    "driver_license": "ABC-123"
                                 }
                             }
                         }
@@ -296,6 +306,9 @@
                                     "email": {
                                         "type": "string"
                                     }
+                                },
+                                "example": {
+                                    "email": "user@email.com.br"
                                 }
                             }
                         }
@@ -367,7 +380,7 @@
                     "201": {
                         "description": "Created"
                     },
-                    "500": {
+                    "400": {
                         "description": "Category already exists"
                     }
                 }
@@ -394,6 +407,12 @@
                                             "description": {
                                                 "type": "string"
                                             }
+                                        },
+                                        "example": {
+                                            "id": "1421278d-b2a5-49b1-8c77-ec48ad10368a",
+                                            "name": "Category name",
+                                            "description": "Category Description",
+                                            "created_at": "2022-12-21T14:28:52.349Z"
                                         }
                                     }
                                 }
@@ -462,8 +481,44 @@
                     "201": {
                         "description": "Created"
                     },
-                    "500": {
+                    "400": {
                         "description": "Specification already exists!"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Specifications"
+                ],
+                "summary": "List all specifications",
+                "description": "List all specifications",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "example": {
+                                            "id": "1421278d-b2a5-49b1-8c77-ec48ad10368a",
+                                            "name": "Specification name",
+                                            "description": "Specification Description",
+                                            "created_at": "2022-12-21T14:28:52.349Z"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -495,6 +550,98 @@
                     },
                     "400": {
                         "description": "Car already exists!"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "List all cars",
+                "description": "List all cars",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "available": {
+                                                "type": "boolean"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "daily_rate": {
+                                                "type": "number"
+                                            },
+                                            "license_plate": {
+                                                "type": "string"
+                                            },
+                                            "fine_amount": {
+                                                "type": "number"
+                                            },
+                                            "brand": {
+                                                "type": "string"
+                                            },
+                                            "category_id": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "date"
+                                            },
+                                            "images": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "car_id": {
+                                                            "type": "string"
+                                                        },
+                                                        "image_name": {
+                                                            "type": "string"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "date"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "example": {
+                                            "name": "Car Name",
+                                            "description": "Car Description",
+                                            "daily_rate": 100,
+                                            "license_plate": "ABC123",
+                                            "fine_amount": 123,
+                                            "brand": "BHG",                                        
+                                            "category_id": "123213-3123-231231",
+                                            "created_at": "2020-08-01T00:00:00Z",
+                                            "images": [
+                                                {
+                                                    "id": "ad19c01f-b47a-4f29-a06a-6bfa52a93a97",
+                                                    "car_id": "767b5b31-25bb-452f-9a9f-2f7ac9a7de85",
+                                                    "image_name": "332ec8d598c7f3af85f94f305a365436-photo2.jpg",
+                                                    "created_at": "2022-12-26T19:54:49.563Z"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -558,6 +705,10 @@
                 "description": {
                     "type": "string"
                 }
+            },
+            "example": {
+                "name": "Specification Name",
+                "description": "Specification Description"
             }
         },
         "Car": {
@@ -584,6 +735,15 @@
                 "category_id": {
                     "type": "string"
                 }
+            },
+            "example": {
+                "name": "Car Name",
+                "description": "Car Description",
+                "daily_rate": 100,
+                "license_plate": "ABC123",
+                "fine_amount": 123,
+                "brand": "BHG",
+                "category_id": "123213-3123-231231"
             }
         }
     },
