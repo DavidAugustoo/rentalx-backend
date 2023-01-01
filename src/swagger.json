@@ -9,6 +9,162 @@
         }
     },
     "paths": {
+        "/sessions": {
+            "post": {
+                "tags": [
+                    "Session"
+                ],
+                "summary": "Authentication user",
+                "description": "Authenticate a user on the platform",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        },
+                                        "refresh_token": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Successfully authorized": {
+                                        "value": {
+                                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6I",
+                                            "user": {
+                                                "name": "User name",
+                                                "email": "user@email.com.br"
+                                            },
+                                            "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Email or password incorrect!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Incorrect Credentials": {
+                                        "value": {
+                                            "message": "Email or password incorrect!"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/refresh-token": {
+            "post": {
+                "tags": [
+                    "Session"
+                ],
+                "summary": "Refresh token",
+                "description": "Renewing a user's access by requesting a new token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "refresh_token": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "New generated token": {
+                                        "value": {
+                                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6I",
+                                            "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid Token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Incorrect Token": {
+                                        "value": {
+                                            "message": "Invalid Token"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/categories": {
             "post": {
                 "tags": [
@@ -143,40 +299,6 @@
                     },
                     "500": {
                         "description": "Specification already exists!"
-                    }
-                }
-            }
-        },
-        "/sessions": {
-            "post": {
-                "tags": [
-                    "Session"
-                ],
-                "summary": "Authentication user",
-                "description": "Authentication user",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Email or password incorrect!"
                     }
                 }
             }
