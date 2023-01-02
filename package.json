@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
+    "start": "node dist/shared/infra/http/server.js",
     "dev": "ts-node-dev --inspect -r tsconfig-paths/register --poll --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "node -r tsconfig-paths/register --require ts-node/register ./node_modules/typeorm/cli.js",
     "test": "NODE_ENV=test jest --runInBand",
     "lint": "eslint --fix --ext .ts,.jsx .",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register src/shared/infra/typeorm/seed/admin.ts",
-    "migration:run":"NODE_ENV=typeorm yarn typeorm migration:run -d src/shared/infra/typeorm",
-    "migration:run:test":"NODE_ENV=typeorm_test yarn typeorm migration:run -d src/shared/infra/typeorm"
+    "migration:run": "NODE_ENV=typeorm yarn typeorm migration:run -d src/shared/infra/typeorm",
+    "migration:run:test": "NODE_ENV=typeorm_test yarn typeorm migration:run -d src/shared/infra/typeorm"
   },
   "license": "MIT",
   "dependencies": {
@@ -27,12 +29,20 @@
     "nodemailer": "^6.8.0",
     "pg": "^8.8.0",
     "swagger-ui-express": "^4.6.0",
+    "ts-alias": "^0.0.6",
     "ts-node-dev": "^2.0.0",
     "tsyringe": "^4.7.0",
     "typeorm": "^0.3.11",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.7",
+    "@babel/node": "^7.20.7",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
     "@types/bcrypt": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.14",
@@ -44,6 +54,8 @@
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "^7.21.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
