@@ -72,7 +72,7 @@
                         }
                     },
                     "400": {
-                        "description": "Email or password incorrect!",
+                        "description": "Email or password incorrect",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -86,7 +86,7 @@
                                 "examples": {
                                     "Incorrect Credentials": {
                                         "value": {
-                                            "message": "Email or password incorrect!"
+                                            "message": "Email or password incorrect"
                                         }
                                     }
                                 }
@@ -145,26 +145,7 @@
                         }
                     },
                     "401": {
-                        "description": "Invalid Token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "examples": {
-                                    "Incorrect Token": {
-                                        "value": {
-                                            "message": "Invalid Token"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/InvalidToken"
                     }
                 }
             }
@@ -224,7 +205,12 @@
                                 "examples": {
                                     "Incorrect Credentials": {
                                         "value": {
-                                            "message": "Email or password incorrect!"
+                                            "message": "Email or password incorrect"
+                                        }
+                                    },
+                                    "E-mail already registered": {
+                                        "value": {
+                                            "message": "User already exists"
                                         }
                                     }
                                 }
@@ -266,26 +252,7 @@
                         "description": "Avatar sent"
                     },
                     "401": {
-                        "description": "Invalid Token",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "examples": {
-                                    "Incorrect Token": {
-                                        "value": {
-                                            "message": "Invalid Token"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 }
             }
@@ -381,7 +348,29 @@
                         "description": "Created"
                     },
                     "400": {
-                        "description": "Category already exists"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Category already exists": {
+                                        "value": {
+                                            "message": "Category already exists"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 }
             },
@@ -418,6 +407,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/InvalidToken"
                     }
                 }
             }
@@ -452,6 +444,9 @@
                 "responses": {
                     "201": {
                         "description": "Created"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 }
             }
@@ -482,7 +477,10 @@
                         "description": "Created"
                     },
                     "400": {
-                        "description": "Specification already exists!"
+                        "description": "Specification already exists"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 }
             },
@@ -519,6 +517,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/InvalidToken"
                     }
                 }
             }
@@ -549,7 +550,10 @@
                         "description": "Created"
                     },
                     "400": {
-                        "description": "Car already exists!"
+                        "description": "Car already exists"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 }
             },
@@ -626,7 +630,7 @@
                                             "daily_rate": 100,
                                             "license_plate": "ABC123",
                                             "fine_amount": 123,
-                                            "brand": "BHG",                                        
+                                            "brand": "BHG",
                                             "category_id": "123213-3123-231231",
                                             "created_at": "2020-08-01T00:00:00Z",
                                             "images": [
@@ -642,6 +646,64 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/InvalidToken"
+                    }
+                }
+            }
+        },
+        "/cars/specifications/{id}": {
+            "post": {
+                "tags": [
+                    "Cars"
+                ],
+                "summary": "Attribute specifications on cars",
+                "description": "Attribute specifications on cars",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Car id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "string",
+                                "properties": {
+                                    "specifications_id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "specifications_id": [
+                                        "25219933-c921-4d08-a5bd-bf633607742f"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 }
             }
@@ -690,6 +752,260 @@
                 "responses": {
                     "201": {
                         "description": "Created"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                }
+            }
+        },
+        "/rentals": {
+            "post": {
+                "tags": [
+                    "Rentals"
+                ],
+                "summary": "Make a rent",
+                "description": "Make a rent",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "car_id": {
+                                        "type": "string"
+                                    },
+                                    "expected_return_date": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "car_id": "767b5b31-25bb-452f-9a9f-2f7ac9a7de85",
+                                    "expected_return_date": "2022-12-29T19:59:46.997Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "Car does not exist": {
+                                        "value": {
+                                            "message": "Car does not exist"
+                                        }
+                                    },
+                                    "Car is unavailable": {
+                                        "value": {
+                                            "message": "Car is unavailable"
+                                        }
+                                    },
+                                    "Invalid return time": {
+                                        "value": {
+                                            "message": "Invalid return time"
+                                        }
+                                    },
+                                    "There's a rental in progress for user": {
+                                        "value": {
+                                            "message": "There's a rental in progress for user"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/InvalidToken"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Rentals"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "List all rentals",
+                "description": "List all rentals",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "car_id": {
+                                                "type": "string"
+                                            },
+                                            "user_id": {
+                                                "type": "string"
+                                            },
+                                            "start_date": {
+                                                "type": "date"
+                                            },
+                                            "end_date": {
+                                                "type": "date"
+                                            },
+                                            "expected_return_date": {
+                                                "type": "date"
+                                            },
+                                            "total": {
+                                                "type": "number"
+                                            },
+                                            "created_at": {
+                                                "type": "date"
+                                            },
+                                            "updated_at": {
+                                                "type": "date"
+                                            },
+                                            "car": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "available": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "daily_rate": {
+                                                        "type": "number"
+                                                    },
+                                                    "license_plate": {
+                                                        "type": "string"
+                                                    },
+                                                    "fine_amount": {
+                                                        "type": "number"
+                                                    },
+                                                    "brand": {
+                                                        "type": "string"
+                                                    },
+                                                    "category_id": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "date"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "example": {
+                                            "id": "0c5b9bf6-ecd8-4694-8aaf-89a93dab12cf",
+                                            "car_id": "767b5b31-25bb-452f-9a9f-2f7ac9a7de85",
+                                            "user_id": "69105fb7-8331-470f-8d94-3e036f49bae6",
+                                            "start_date": "2022-12-26T20:28:37.899Z",
+                                            "end_date": null,
+                                            "expected_return_date": "2022-12-29T19:59:46.997Z",
+                                            "total": null,
+                                            "created_at": "2022-12-26T20:28:37.899Z",
+                                            "updated_at": "2022-12-26T20:28:37.899Z",
+                                            "car": {
+                                                "id": "767b5b31-25bb-452f-9a9f-2f7ac9a7de85",
+                                                "available": false,
+                                                "name": "BMW i8",
+                                                "description": "Carro híbrido de alta performance",
+                                                "daily_rate": 1000,
+                                                "license_plate": "ABC-1235",
+                                                "fine_amount": 600,
+                                                "brand": "BMW",
+                                                "category_id": "1421278d-b2a5-49b1-8c77-ec48ad10368a",
+                                                "created_at": "2022-12-26T16:54:19.624Z"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "401": {
+                            "$ref": "#/components/responses/InvalidToken"
+                        }
+                    }
+                }
+            }
+        },
+        "/rentals/devolution/{id}": {
+            "post": {
+                "tags": [
+                    "Rentals"
+                ],
+                "summary": "Return the rental car",
+                "description": "Return the rental car",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Rental id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "images": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returned car"
+                    },
+                    "404": {
+                        "description": "Rental does not exist"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/InvalidToken"
                     }
                 }
             }
@@ -753,6 +1069,57 @@
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
+            }
+        },
+        "responses": {
+            "Unauthorized": {
+                "description": "Not authorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "User isn't admin": {
+                                "value": {
+                                    "message": "User isn't admin"
+                                }
+                            },
+                            "Invalid Token": {
+                                "value": {
+                                    "message": "Invalid Token"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "InvalidToken": {
+                "description": "Not authorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "Invalid Token": {
+                                "value": {
+                                    "message": "Invalid Token"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
