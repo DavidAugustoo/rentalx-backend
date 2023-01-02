@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/87216c3f-c762-4f55-ba35-cfbc88dde054/AppServices/subscriptions/87216c3f-c762-4f55-ba35-cfbc88dde054/resourceGroups/rentx_group/providers/Microsoft.Web/sites/rentx",
+    "appService.deploySubpath": "."
+}
